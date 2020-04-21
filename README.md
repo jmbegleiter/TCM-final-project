@@ -63,13 +63,13 @@ response = requests.get(url)
 response.raise_for_status()  # check for errors
 
 # load json data
-jsonData = json.loads(response.text)
+recipeData = json.loads(response.text)
 
 celebrating = 'yes'
 cook = 'no'
 answer = 'yes'
 
-print('Are you going to be celebrating this holiday?')
+print('Are you going to be celebrating' + yourHoliday + '?')
 celebrating = input()
 if celebrating == 'yes':
     print('Are you going to cook for the meal?')
@@ -80,8 +80,15 @@ if celebrating == 'yes':
         print('Would you like a recipe?')  # ask user if they want to receive a recipe
         answer = input()
         if answer == 'yes':
-            print('Here is your recipe:')
-            pprint.pprint(jsonData)
+            print('Here is the link to your recipe:')
+            pprint.pprint(recipeData['recipes'][0]['sourceUrl'])
+
+            print('This is a summary of the recipe:')
+            pprint.pprint(recipeData['recipes'][0]['summary'])
+
+            print('These are the instructions for the recipe:')
+            pprint.pprint(recipeData['recipes'][0]['instructions'])
+
         else:
             print('Okay, enjoy your holiday.')
 else:
