@@ -3,7 +3,7 @@ import requests, json, pprint, random, time
 import datetime as dt
 from datetime import datetime
 
-#connecting to calender api
+#connecting to calendar api
 url = 'https://calendarific.com/api/v2/holidays?api_key=a791916a771b14d273f803d7cda93442db2c8cb3&country=US&year=2020&type=national&type=religious'
 response = requests.get(url)
 response.raise_for_status()
@@ -115,8 +115,8 @@ else:
     randomholiday = random.choice(holidaytypelist)
     yourHoliday = randomholiday
 
-    #returns the users reccomended holiday
-    print("2020 seems like an exciting year! Based on my super holiday generator, I reccomend you celebrate " + randomholiday + "!")
+    #returns the users recommended holiday
+    print("2020 seems like an exciting year! Based on my super holiday generator, I recommend you celebrate " + randomholiday + "!")
 
 
 # start of recipe API
@@ -139,7 +139,7 @@ try:
 except IndexError:
     yourrecipeRandom = recipeDataRandom['recipes'][0]['sourceUrl']
 
-
+#interactive with user by asking questions
 print('Are you going to be celebrating this holiday?')
 celebrating = input()
 if celebrating == 'yes':
@@ -153,20 +153,20 @@ if celebrating == 'yes':
         if answer == 'yes':
             try:
                 yourrecipe = recipeData['recipes'][0]['sourceUrl']
-                print('Here is a link to your recipe:')
+                print('Here is a link to your recipe:')                             #provides link to recipe
                 pprint.pprint(yourrecipe)
                 #pprint.pprint(recipeData['recipes'][0]['sourceUrl'])
 
-                print('This is a summary of the recipe:')
+                print('This is a summary of the recipe:')                           #provides summary of recipe
                 pprint.pprint(recipeData['recipes'][0]['summary'])
 
-                print('These are the instructions for the recipe:')
+                print('These are the instructions for the recipe:')                 #provides recipe instructions
                 pprint.pprint(recipeData['recipes'][0]['instructions'])
             except IndexError:
                 errormessage = "Sorry, we do not have a recipe for that holiday."
                 print(errormessage)
 
-                print('Would you like a random recipe?')
+                print('Would you like a random recipe?')        #if no recipe for holiday, option to receive random recipe
                 randomanswer = input()
                 if answer == 'yes':
                     print('Here is a link to your recipe:')
@@ -202,7 +202,7 @@ theEnd()
 
 
 #puts recipe link into txt file
-outputFilename = 'recipefile.txt'
+outputFilename = 'recipe_file.txt'
 outputFileObj = open(outputFilename, 'w')
 outputFileObj.write('Here is a link to your recipe: ')
 outputFileObj.write(str(theEnd()))
