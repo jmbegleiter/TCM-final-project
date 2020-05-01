@@ -120,11 +120,15 @@ else:
 #print(yourHoliday)
 
  # start of recipe API
+urlR = f'https://api.spoonacular.com/recipes/random?number=1&tags={yourHoliday}&apiKey=6f873121665c40adb0c1fa22d3b87c09'
+responseR = requests.get(urlR)
+responseR.raise_for_status()  # check for errors
+recipeData = json.loads(responseR.text)
 
-url = f'https://api.spoonacular.com/recipes/random?number=1&tags={yourHoliday}&apiKey=6f873121665c40adb0c1fa22d3b87c09'
-response = requests.get(url)
-response.raise_for_status()  # check for errors
-recipeData = json.loads(response.text)
+urlRandom = f'https://api.spoonacular.com/recipes/random?number=1&apiKey=6f873121665c40adb0c1fa22d3b87c09'
+responseRandom = requests.get(urlRandom)
+responseRandom.raise_for_status()  # check for errors
+recipeDataRandom = json.loads(responseRandom.text)
 
 celebrating = 'yes'
 cook = 'no'
@@ -141,14 +145,36 @@ if celebrating == 'yes':
         print('Would you like a recipe?')  # ask user if they want to receive a recipe
         answer = input()
         if answer == 'yes':
-            print('Here is a link to your recipe:')
-            pprint.pprint(recipeData['recipes'][0]['sourceUrl'])
+            try:
+                yourrecipe = recipeData['recipes'][0]['sourceUrl']
+                print('Here is a link to your recipe:')
+                pprint.pprint(yourrecipe)
+                #pprint.pprint(recipeData['recipes'][0]['sourceUrl'])
 
-            print('This is a summary of the recipe:')
-            pprint.pprint(recipeData['recipes'][0]['summary'])
+                print('This is a summary of the recipe:')
+                pprint.pprint(recipeData['recipes'][0]['summary'])
 
-            print('These are the instructions for the recipe:')
-            pprint.pprint(recipeData['recipes'][0]['instructions'])
+                print('These are the instructions for the recipe:')
+                pprint.pprint(recipeData['recipes'][0]['instructions'])
+            except IndexError:
+                errormessage = "Sorry, we do not have a recipe for that holiday."
+                print(errormessage)
+
+                print('Would you like a random recipe?')
+                randomanswer = input()
+                if answer == 'yes':
+                    print('Here is a link to your recipe:')
+                    pprint.pprint(recipeDataRandom['recipes'][0]['sourceUrl'])
+
+                    print('This is a summary of the recipe:')
+                    pprint.pprint(recipeDataRandom['recipes'][0]['summary'])
+
+                    print('These are the instructions for the recipe:')
+                    pprint.pprint(recipeDataRandom['recipes'][0]['instructions'])
+
+                else:
+                    print('Okay, enjoy your holiday.')
+
 
         else:
             print('Okay, enjoy your holiday.')
@@ -160,8 +186,8 @@ else:
 outputFilename = 'recipe_file.txt'
 outputFileObj = open(outputFilename, 'w')
 
-outputFileObj.write('Here is a link to your recipe: ')
-outputFileObj.write(str(recipeData['recipes'][0]['sourceUrl']))
-outputFileObj.close()
+#outputFileObj.write('Here is a link to your recipe: ')
+#outputFileObj.write(str(recipeData['recipes'][0]['sourceUrl']))
+#outputFileObj.close()
 
 
