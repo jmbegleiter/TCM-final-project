@@ -1,10 +1,9 @@
-#import requests to get url, json for data, pprint to print data, random to randomly select a room, time for time.sleep
+#import requests to get url, json for data, pprint to print data, random, time, datetime, and datetime from datetime
 import requests, json, pprint, random, time
 import datetime as dt
 from datetime import datetime
 
-
-#connecting to calendar api
+#connecting to calender api
 url = 'https://calendarific.com/api/v2/holidays?api_key=a791916a771b14d273f803d7cda93442db2c8cb3&country=US&year=2020&type=national&type=religious'
 response = requests.get(url)
 response.raise_for_status()
@@ -12,11 +11,10 @@ response.raise_for_status()
 #loading holiday data into text format
 holiday = json.loads(response.text)
 
-
 #using the response gallery, holidaydata pulls just the response (info)
 holidaydata = holiday['response']
 
-#makes code user friendly and asks for their name
+#makes code user friendly
 print("Hello! What is your name?")
 yourname = input()
 print('Hi ' + yourname + '.')
@@ -40,18 +38,17 @@ for y in holiday2:
 
 #print(holiday2)
 
-
 #makes list of holiday types without duplicates
 HType = []
 for i in list:
     if i not in HType:
         HType.append(i)
 
-
 #continues to increase user friendliness by asking how they'd like to search for holiday
 print("Would you like to search by date or type of holiday?")
 yourchoice = input()
 
+#if user wants to search by date
 if yourchoice.startswith("d" or "D"):
     TodaysDate1 = dt.datetime.today()
    # print(TodaysDate1)
@@ -64,13 +61,14 @@ if yourchoice.startswith("d" or "D"):
         date3 = str(date2)
         #print(date2)R
 
+        #try for is some of the dates are not in correct format
         try:
             datetime_object = dt.datetime.strptime(date3, '%Y-%m-%d')
             datetime_object_list.append(datetime_object)
         except ValueError:
             pass
 
-        #print(datetime_object_list)
+        #returns closest date to today's date
         closest = min(datetime_object_list, key=lambda d: abs(d - TodaysDate1))
         #print(closest)
 
@@ -87,9 +85,10 @@ if yourchoice.startswith("d" or "D"):
             holidaydate = d2
 
     #print(holidaydate)
-    print("The next upcoming holiday is " + your_dated_holiday + ". This holiday is on " + holidaydate + ".")
+    print("The closest holiday is " + your_dated_holiday + ". This holiday is on " + holidaydate + ".")
     yourHoliday = your_dated_holiday
 
+#if user doesnt want to search by date - search by holiday type
 else:
     print("Here is a list of the types of holidays. Please select a type of holiday:")
     print(HType)
@@ -105,6 +104,7 @@ else:
         type5 = type4.strip('[]')
         name1 = y.get('name')
 
+        #makes list of types of holidays
         if yourHolidayType1 in type5:
             holidaytypelist.append(name1)
                 #holidaytypelist1 = str(holidaytypelist)
@@ -115,11 +115,11 @@ else:
     randomholiday = random.choice(holidaytypelist)
     yourHoliday = randomholiday
 
-    print("2020 seems like an exciting year! Based on my super holiday generator, I recommend you celebrate " + randomholiday + "!")
+    #returns the users reccomended holiday
+    print("2020 seems like an exciting year! Based on my super holiday generator, I reccomend you celebrate " + randomholiday + "!")
 
-#print(yourHoliday)
 
- # start of recipe API
+# start of recipe API
 urlR = f'https://api.spoonacular.com/recipes/random?number=1&tags={yourHoliday}&apiKey=6f873121665c40adb0c1fa22d3b87c09'
 responseR = requests.get(urlR)
 responseR.raise_for_status()  # check for errors
@@ -139,7 +139,7 @@ try:
 except IndexError:
     yourrecipeRandom = recipeDataRandom['recipes'][0]['sourceUrl']
 
-#interactive with the user by asking them questions and providing them with info based on their inputs
+
 print('Are you going to be celebrating this holiday?')
 celebrating = input()
 if celebrating == 'yes':
@@ -169,16 +169,16 @@ if celebrating == 'yes':
                 print('Would you like a random recipe?')
                 randomanswer = input()
                 if answer == 'yes':
-                    print('Here is a link to your recipe: ')
+                    print('Here is a link to your recipe:')
                     #yourrecipeRandom = recipeDataRandom['recipes'][0]['sourceUrl']
                     #pprint.pprint(recipeDataRandom['recipes'][0]['sourceUrl'])
                     pprint.pprint(yourrecipeRandom)
 
 
-                    print('This is a summary of the recipe: ')
+                    print('This is a summary of the recipe:')
                     pprint.pprint(recipeDataRandom['recipes'][0]['summary'])
 
-                    print('These are the instructions for the recipe: ')
+                    print('These are the instructions for the recipe:')
                     pprint.pprint(recipeDataRandom['recipes'][0]['instructions'])
 
                 else:
@@ -191,6 +191,7 @@ else:
     print('Okay, have a nice day.')
 
 
+#def loop that returns youRecipeFinal using either searched recipe or random recipe
 def theEnd():
     try:
         yourRecipeFinal = recipeData['recipes'][0]['sourceUrl']
@@ -200,9 +201,9 @@ def theEnd():
 theEnd()
 
 
-outputFilename = 'recipe_file.txt'
+#puts recipe link into txt file
+outputFilename = 'recipefile.txt'
 outputFileObj = open(outputFilename, 'w')
 outputFileObj.write('Here is a link to your recipe: ')
 outputFileObj.write(str(theEnd()))
 outputFileObj.close()
-
