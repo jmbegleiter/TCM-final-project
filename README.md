@@ -126,6 +126,8 @@ holidayoutput()
 
  # start of recipe API
 
+import requests, json, pprint # for the API data
+
 url = f'https://api.spoonacular.com/recipes/random?number=1&tags={yourHoliday}&apiKey=6f873121665c40adb0c1fa22d3b87c09'
 response = requests.get(url)
 response.raise_for_status()  # check for errors
@@ -137,7 +139,7 @@ celebrating = 'yes'
 cook = 'no'
 answer = 'yes'
 
-print('Are you going to be celebrating' + yourHoliday + '?')
+print('Are you going to be celebrating this holiday?')
 celebrating = input()
 if celebrating == 'yes':
     print('Are you going to cook for the meal?')
@@ -148,7 +150,7 @@ if celebrating == 'yes':
         print('Would you like a recipe?')  # ask user if they want to receive a recipe
         answer = input()
         if answer == 'yes':
-            print('Here is the link to your recipe:')
+            print('Here is a link to your recipe:')
             pprint.pprint(recipeData['recipes'][0]['sourceUrl'])
 
             print('This is a summary of the recipe:')
@@ -162,10 +164,11 @@ if celebrating == 'yes':
 else:
     print('Okay, have a nice day.')
 
+# Write out the translated message to the output file:
 
+outputFilename = 'recipe_file.txt'
+outputFileObj = open(outputFilename, 'w')
 
-
-
-
-
-
+outputFileObj.write('Here is a link to your recipe: ')
+outputFileObj.write(str(recipeData['recipes'][0]['sourceUrl']))
+outputFileObj.close()
