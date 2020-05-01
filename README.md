@@ -4,7 +4,7 @@ import datetime as dt
 from datetime import datetime
 
 
-#connecting to calender api
+#connecting to calendar api
 url = 'https://calendarific.com/api/v2/holidays?api_key=a791916a771b14d273f803d7cda93442db2c8cb3&country=US&year=2020&type=national&type=religious'
 response = requests.get(url)
 response.raise_for_status()
@@ -16,7 +16,7 @@ holiday = json.loads(response.text)
 #using the response gallery, holidaydata pulls just the response (info)
 holidaydata = holiday['response']
 
-#makes code user friendly and welcomes then to the musuem
+#makes code user friendly and asks for their name
 print("Hello! What is your name?")
 yourname = input()
 print('Hi ' + yourname + '.')
@@ -115,7 +115,7 @@ else:
     randomholiday = random.choice(holidaytypelist)
     yourHoliday = randomholiday
 
-    print("2020 seems like an exciting year! Based on my super holiday generator, I reccomend you celebrate " + randomholiday + "!")
+    print("2020 seems like an exciting year! Based on my super holiday generator, I recommend you celebrate " + randomholiday + "!")
 
 #print(yourHoliday)
 
@@ -139,7 +139,7 @@ try:
 except IndexError:
     yourrecipeRandom = recipeDataRandom['recipes'][0]['sourceUrl']
 
-
+#interactive with the user by asking them questions and providing them with info based on their inputs
 print('Are you going to be celebrating this holiday?')
 celebrating = input()
 if celebrating == 'yes':
@@ -169,16 +169,16 @@ if celebrating == 'yes':
                 print('Would you like a random recipe?')
                 randomanswer = input()
                 if answer == 'yes':
-                    print('Here is a link to your recipe:')
+                    print('Here is a link to your recipe: ')
                     #yourrecipeRandom = recipeDataRandom['recipes'][0]['sourceUrl']
                     #pprint.pprint(recipeDataRandom['recipes'][0]['sourceUrl'])
                     pprint.pprint(yourrecipeRandom)
 
 
-                    print('This is a summary of the recipe:')
+                    print('This is a summary of the recipe: ')
                     pprint.pprint(recipeDataRandom['recipes'][0]['summary'])
 
-                    print('These are the instructions for the recipe:')
+                    print('These are the instructions for the recipe: ')
                     pprint.pprint(recipeDataRandom['recipes'][0]['instructions'])
 
                 else:
