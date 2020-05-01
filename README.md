@@ -134,6 +134,12 @@ celebrating = 'yes'
 cook = 'no'
 answer = 'yes'
 
+try:
+    yourrecipe = recipeData['recipes'][0]['sourceUrl']
+except IndexError:
+    yourrecipeRandom = recipeDataRandom['recipes'][0]['sourceUrl']
+
+
 print('Are you going to be celebrating this holiday?')
 celebrating = input()
 if celebrating == 'yes':
@@ -164,7 +170,10 @@ if celebrating == 'yes':
                 randomanswer = input()
                 if answer == 'yes':
                     print('Here is a link to your recipe:')
-                    pprint.pprint(recipeDataRandom['recipes'][0]['sourceUrl'])
+                    #yourrecipeRandom = recipeDataRandom['recipes'][0]['sourceUrl']
+                    #pprint.pprint(recipeDataRandom['recipes'][0]['sourceUrl'])
+                    pprint.pprint(yourrecipeRandom)
+
 
                     print('This is a summary of the recipe:')
                     pprint.pprint(recipeDataRandom['recipes'][0]['summary'])
@@ -181,13 +190,19 @@ if celebrating == 'yes':
 else:
     print('Okay, have a nice day.')
 
-# Write out the translated message to the output file:
 
-outputFilename = 'recipe_file.txt'
+def theEnd():
+    try:
+        yourRecipeFinal = recipeData['recipes'][0]['sourceUrl']
+    except IndexError:
+        yourRecipeFinal = yourrecipeRandom
+    return yourRecipeFinal
+theEnd()
+
+
+outputFilename = 'recipefile.txt'
 outputFileObj = open(outputFilename, 'w')
-
-#outputFileObj.write('Here is a link to your recipe: ')
-#outputFileObj.write(str(recipeData['recipes'][0]['sourceUrl']))
-#outputFileObj.close()
-
+outputFileObj.write('Here is a link to your recipe: ')
+outputFileObj.write(str(theEnd()))
+outputFileObj.close()
 
