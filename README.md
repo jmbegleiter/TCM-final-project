@@ -200,7 +200,7 @@ def theEnd():
 theEnd()
 
 
-outputFilename = 'recipefile.txt'
+outputFilename = 'recipe_file.txt'
 outputFileObj = open(outputFilename, 'w')
 outputFileObj.write('Here is a link to your recipe: ')
 outputFileObj.write(str(theEnd()))
